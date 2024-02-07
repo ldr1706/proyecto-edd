@@ -1,2 +1,2 @@
-# proyecto-edd
+# Proyecto-EDD
  
