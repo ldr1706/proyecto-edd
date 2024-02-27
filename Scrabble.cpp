@@ -1,4 +1,5 @@
 #include "Scrabble.h"
+using namespace std;
 Scrabble::Scrabble() {
     registrarComando(
         "ayuda",
@@ -12,25 +13,25 @@ Scrabble::Scrabble() {
         "Lista los comandos disponibles o muestra ayuda sobre un comando específico. Uso: ayuda <comando>"
     );
     registrarComando(
-        "inicializar_diccionario",
+        "inicializar diccionario.txt",
         [this](const std::vector<std::string>& args) {
             inicializar_diccionario(args);
         },
-        "Inicializa el diccionario para el juego Scrabble."
+        "Inicializa el sistema a partir del archivo diccionario.txt, que contiene un diccionario de palabras aceptadas en el idioma inglés (idioma original del juego). El comando debe almacenar las palabras del archivo de forma que sea fácil recuperarlas posteriormente. Las palabras deben ser verificadas para no almacenar aquellas que incluyen símbolos inválidos (como guiones, números y signos de puntuación)"
     );
     registrarComando(
-        "iniciar_inverso",
+        "iniciar inverso diccionario.txt",
         [this](const std::vector<std::string>& args) {
             iniciar_inverso(args);
         },
-        "Inicializa el diccionario inverso para el juego Scrabble."
+        "Inicializa el sistema a partir del archivo diccionario.txt, que contiene un diccionario de palabras aceptadas en el idioma inglés (idioma original del juego). A diferencia del comando inicializar, este comando almacena las palabras en sentido inverso (leídas de derecha a izquierda), teniendo en cuenta que sea fácil recuperarlas posteriormente. Las palabras también deben ser verificadas para no almacenar aquellas que incluyen símbolos inválidos (como guiones, números y signos de puntuación)"
     );
     registrarComando(
-        "puntaje_palabra",
+        "puntaje palabra",
         [this](const std::vector<std::string>& args ) {
             puntaje_palabra(args);
         },
-        "Calcula el puntaje de una palabra en el juego Scrabble."
+        "El comando permite conocer la puntuación que puede obtenerse con una palabra dada, de acuerdo a la tabla de puntuación de cada letra presentada anteriormente. Sin embargo, el comando debe verificar que la palabra sea válida, es decir, que exista en el diccionario (tanto original como en sentido inverso), y que esté escrita con símbolos válidos"
     );
 
     registrarComando(
