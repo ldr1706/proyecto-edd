@@ -35,7 +35,7 @@ std::vector<std::string> Diccionario::inicializar_diccionario(const std::string&
 
 std::vector<std::stack<char>> Diccionario::iniciar_inverso(const std::string& archivo) {
   std::vector<std::stack<char>> palabrasInverso;
-  std::ifstream arch("diccionario.txt");
+  std::ifstream arch (archivo);
   if (!arch.is_open()) {
     std::cout << "El archivo diccionario.txt no existe o no puede ser leído."
               << std::endl;
