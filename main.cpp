@@ -11,6 +11,5 @@ int main() {
     Ayuda ayuda;
     std::cout << "Escribe 'ayuda' para listar los comandos disponibles." << std::endl;
     ayuda.ejecutar();
-    cout << "Final" << endl;
     return 0;
 }

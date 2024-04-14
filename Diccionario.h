@@ -1,20 +1,18 @@
 #ifndef DICCIONARIO_H
 #define DICCIONARIO_H
 
-#include <string>
-#include <vector>
+#include <cctype>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <stack>
 #include <string>
 #include <vector>
-#include <stack>
-#include <cctype>
 class Diccionario {
 public:
-    Diccionario();
-std::vector<std::string> inicializar_diccionario(const std::string& archivo);
-std::vector<std::stack<char>> iniciar_inverso(const std::string& archivo);
-    
+  Diccionario();
+  //std::string stackToString(std::stack<char> stack);
+  std::vector<std::string> inicializar_diccionario(const std::string &archivo);
+  std::vector<std::string> iniciar_inverso(const std::string &archivo);
 };
 #endif

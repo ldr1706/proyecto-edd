@@ -12,7 +12,7 @@ using namespace std;
 class Palabra{
 public:
 Palabra();
-int puntaje_palabra(string palabra, std::vector<std::string> palabras, std::vector<std::stack<char>> palabrasInverso);
+int puntaje_palabra(string palabra, std::vector<std::string> palabras);
 
 };
 #endif
