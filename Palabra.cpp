@@ -13,6 +13,9 @@ using namespace std;
 
 Diccionario dicc;
   Palabra::Palabra() {}
+  int Palabra::puntaje_palabra(string palabra, std::vector<std::string> palabras){
+  
+    bool b = true; 
   int Palabra::puntaje_palabra(string palabra, std::vector<std::string> palabras, std::vector<std::stack<char>> palabrasInverso) {
   
     bool b = true;
@@ -25,7 +28,7 @@ Diccionario dicc;
     }
     if(!b){
       std::cout << "La palabra contiene símbolos invalidos." << std::endl;
-      return puntaje;
+      return score;
     }
     bool find = false;
     for (const std::string& palabri : palabras) {
@@ -61,8 +64,6 @@ Diccionario dicc;
                         break;
                 }
             }
-       std::cout << "El puntaje de " << palabra << " es " << score << std::endl;
     }
-    else{ std::cout << "No existe la palabra" << std::endl;}
     return score;
   }
