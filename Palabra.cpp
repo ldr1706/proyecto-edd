@@ -16,6 +16,10 @@ Diccionario dicc;
   int Palabra::puntaje_palabra(string palabra, std::vector<std::string> palabras){
   
     bool b = true; 
+  int Palabra::puntaje_palabra(string palabra, std::vector<std::string> palabras, std::vector<std::stack<char>> palabrasInverso) {
+  
+    bool b = true;
+    int puntaje = 0;
     int score = 0;
     for (char c : palabra) {
         if (!std::isalpha(c)) {
