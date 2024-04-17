@@ -71,28 +71,29 @@ Nodo* Arbol::buscarPrefijo(string prefijo){
   return aux;
 }
 
-void Arbol::imprimirPalabrasPorPrefijo(string prefijo){
+void Arbol::imprimirPalabrasPorPrefijo(string prefijo, vector<string> &vec){
   Nodo* aux = this->buscarPrefijo(prefijo);
   if(aux == nullptr){
     cout << "No hay palabras con ese prefijo en el arbol" << endl;
     return;
   }
   cout << "Prefijo encontrado" << endl;
-  imprimirPalabrasRecursiva(aux, prefijo);
+  imprimirPalabrasRecursiva(aux, prefijo, vec);
 }
 
-void Arbol::imprimirPalabrasRecursiva(Nodo* nodo, string prefijo){
+void Arbol::imprimirPalabrasRecursiva(Nodo* nodo, string prefijo, vector<string> &palabras){
   if(nodo == nullptr){
     cout << "Nodo nullptr" << endl;
     return;
   }
   if(nodo->esFinalPalabra() == true){
-    cout << "\n" << prefijo;
+    //cout << "\n" << prefijo;
+    palabras.push_back(prefijo);
   }
   for(int i = 0; i < 26; i++){
     if(nodo->obtenerHijo(i) != nullptr){
       char letra = i + 97;
-      imprimirPalabrasRecursiva(nodo->obtenerHijo(i), prefijo + string(1,letra));
+      imprimirPalabrasRecursiva(nodo->obtenerHijo(i), prefijo + string(1,letra), palabras);
     }
   }
 }

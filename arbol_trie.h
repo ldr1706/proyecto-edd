@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 #include "nodo.h"
 
 using namespace std;
@@ -18,8 +19,8 @@ class Arbol{
     Nodo* insertarNodo(Nodo* padre, char valor, bool finalPalabra);
     bool buscarPalabra(string palabra);
     Nodo* buscarPrefijo(string prefijo);
-    void imprimirPalabrasPorPrefijo(string prefijo);
-    void imprimirPalabrasRecursiva(Nodo* nodo, string prefijo);
+    void imprimirPalabrasPorPrefijo(string prefijo, vector<string> &vec);
+    void imprimirPalabrasRecursiva(Nodo* nodo, string prefijo, vector<string> &palabras);
 };
 
 #include "arbol_trie.cxx"

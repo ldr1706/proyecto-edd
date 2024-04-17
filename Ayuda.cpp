@@ -94,10 +94,35 @@ void Ayuda::ejecutarComando(const std::string &entrada) {
     std::string archivo;
     entry >> archivo;
     if(arbolInversoInicializado == false){
-      arbolInversoInicializado = leerArchivo(archivo, arbolInverso);
+      arbolInversoInicializado = leerArchivoInverso(archivo, arbolInverso);
     }
     else{
       cout << "El árbol inverso del diccionario ya ha sido inicializado." << endl;
+    }
+  }else if(comando == "palabras_por_prefijo"){
+    std::string prefijoAbuscar;
+    entry >> prefijoAbuscar;
+    std::vector<string> prefijos;
+    arbol->imprimirPalabrasPorPrefijo(prefijoAbuscar, prefijos);
+    if(!prefijos.empty()){
+      for(string prefijo : prefijos){
+        cout << prefijo <<"- Tamaño: " <<prefijo.length() <<"- Puntaje: " << puntajePalabra(prefijo) << endl;
+      }
+    }
+  }else if(comando == "palabras_por_sufijo"){
+    Palabra palabra;
+    std::string sufijoAbuscar;
+    entry >> sufijoAbuscar;
+    std::string palabraInversa;
+    std::string sufijo;
+    palabraInversa = stringInverso(sufijoAbuscar);
+    std::vector<string> sufijos;
+    arbolInverso->imprimirPalabrasPorPrefijo(palabraInversa, sufijos);
+    if(!sufijos.empty()){
+      for(string sufijo : sufijos){
+        sufijo = stringInverso(sufijo);
+        cout << sufijo <<"- Tamaño: " <<sufijo.length() << "- Puntaje: " << puntajePalabra(sufijo) << endl;
+      }
     }
   }else if (comando == "salir") {
     salir();
