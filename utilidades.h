@@ -5,6 +5,8 @@
 #include <stack>
 
 std::string stackToString(std::stack<char> stack);
+std::string stringInverso(std::string palabra);
+int puntajePalabra(std::string palabra);
 
 #include "utilidades.cxx"
 #endif
