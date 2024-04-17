@@ -15,4 +15,6 @@ Palabra();
 int puntaje_palabra(string palabra, std::vector<std::string> palabras);
 
 };
+
+#include "Palabra.cpp"
 #endif

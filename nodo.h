@@ -22,4 +22,5 @@ public:
   Nodo* obtenerHijo(int posicion);
 };
 
+#include "nodo.cxx"
 #endif

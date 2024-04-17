@@ -1,5 +1,5 @@
 #include "arbol_trie.h"
-#include "nodo.h"
+
 #include <cstddef>
 
 using namespace std;
@@ -43,7 +43,6 @@ Nodo* Arbol::insertarNodo(Nodo* padre, char valor,bool finalPalabra){
 
 bool Arbol::buscarPalabra(string palabra){
   Nodo* aux = this->raiz;
-  bool bandera = false;
   for(int i = 0; i < palabra.length(); i++){
     char letra = palabra[i];
     aux = aux->buscar(letra);
@@ -84,6 +83,7 @@ void Arbol::imprimirPalabrasPorPrefijo(string prefijo){
 
 void Arbol::imprimirPalabrasRecursiva(Nodo* nodo, string prefijo){
   if(nodo == nullptr){
+    cout << "Nodo nullptr" << endl;
     return;
   }
   if(nodo->esFinalPalabra() == true){
