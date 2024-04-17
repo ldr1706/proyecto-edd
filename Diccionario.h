@@ -11,8 +11,9 @@
 class Diccionario {
 public:
   Diccionario();
-  //std::string stackToString(std::stack<char> stack);
   std::vector<std::string> inicializar_diccionario(const std::string &archivo);
   std::vector<std::string> iniciar_inverso(const std::string &archivo);
 };
+
+#include "Diccionario.cpp"
 #endif

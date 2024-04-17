@@ -1,5 +1,4 @@
 #include "Ayuda.h"
-#include "Diccionario.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>

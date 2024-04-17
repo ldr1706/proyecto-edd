@@ -22,6 +22,5 @@ class Arbol{
     void imprimirPalabrasRecursiva(Nodo* nodo, string prefijo);
 };
 
+#include "arbol_trie.cxx"
 #endif
-
-

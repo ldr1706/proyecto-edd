@@ -1,7 +1,10 @@
 #include "Ayuda.h"
 #include "Diccionario.h"
 #include "Palabra.h"
+#include "arbol_trie.h"
+#include "utilidades.h"
 #include <cctype>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -16,6 +19,10 @@ std::vector<string> listaPalabras;
 std::vector<std::string> palabrasInversas;
 
 Palabra pal;
+Arbol *arbol = new Arbol();
+Arbol *arbolInverso = new Arbol();
+bool arbolInicializado = false;
+bool arbolInversoInicializado = false;
 
 void Ayuda::ejecutar() {
   std::string entrada;
@@ -64,16 +71,35 @@ void Ayuda::ejecutarComando(const std::string &entrada) {
     entry >> palabra;
     if (!palabra.empty()) {
       puntaje = pal.puntaje_palabra(palabra, listaPalabras);
-      if(puntaje == 0){
+      if (puntaje == 0) {
         puntaje = pal.puntaje_palabra(palabra, palabrasInversas);
       }
-      cout << "El puntaje de la palabra " << palabra << " es: " << puntaje << endl;
+      cout << "El puntaje de la palabra " << palabra << " es: " << puntaje
+           << endl;
     } else {
       std::cout << "Error: Uso incorrecto de 'puntaje'. Debe proporcionar la "
                    "palabra para la cual calcular el puntaje."
                 << std::endl;
     }
-  } else if (comando == "salir") {
+  } else if (comando == "iniciar_arbol") {
+    std::string archivo;
+    entry >> archivo;
+    if(arbolInicializado == false){
+      arbolInicializado = leerArchivo(archivo, arbol);
+    }
+    else{
+      cout << "El árbol del diccionario ya ha sido inicializado." << endl;
+    }
+  }else if(comando == "iniciar_arbol_inverso"){
+    std::string archivo;
+    entry >> archivo;
+    if(arbolInversoInicializado == false){
+      arbolInversoInicializado = leerArchivo(archivo, arbolInverso);
+    }
+    else{
+      cout << "El árbol inverso del diccionario ya ha sido inicializado." << endl;
+    }
+  }else if (comando == "salir") {
     salir();
   } else {
     std::cout << "Error: Comando desconocido. Escribe 'ayuda' para listar los "
@@ -109,9 +135,86 @@ void Ayuda::mostrarAyuda() const {
                "es decir, que exista en el diccionario (tanto original como en "
                "sentido inverso), y que esté escrita con símbolos válidos\n"
             << std::endl;
+  std::cout << "iniciar_arbol diccionario.txt: Inicializa el sistema a partir "
+               "Inicializa el sistema a partir del archivo diccionario.txt, que contiene"                "un diccionario de palabras aceptadas en el idioma inglés" 
+               "(idioma original del juego). A diferencia del comando inicializar,"
+               "este comando almacena las palabras en uno o más árboles de letras" 
+               "(como se considere conveniente). Las palabras deben ser verificadas" 
+               "para no almacenar aquellas que incluyen símbolos inválidos" 
+               "(como guiones,números y signos de puntuación)."
+            << std::endl;
+  std::cout << "iniciar_arbol_inverso diccionario.txt: Inicializa el sistema a"
+               " partir del archivo diccionario.txt, que contiene un diccionario"
+               "de palabras aceptadas en el idioma inglés (idioma original del juego)." 
+               "A diferencia de los comandos iniciar_inverso e iniciar_arbol, este" 
+               "comando almacena las palabras en uno o más árboles de letras,"
+               "pero en sentido inverso (leídas de derecha a izquierda). Las palabras" 
+               "también deben ser verificadas para no almacenar aquellas que incluyen"
+               "símbolos inválidos (como guiones, números y signos de puntuación)."
+            << std::endl;
+  std::cout << "palabras_por_prefijo prefijo: Dado un prefijo de pocas letras," 
+               "el comando recorre el(los) árbol(es) de letras (construído(s)"
+               "con el comando iniciar_arbol) para ubicar todas las palabras posibles a" 
+               "construir a partir de ese prefijo. A partir del recorrido,"  
+               "se presenta al usuario en pantalla todas las posibles palabras," 
+               "la longitud de cada una y la puntuación que cada una puede obtener"
+            << std::endl;
+  std::cout << "palabras_por_sufijo sufijo: Dado un sufijo de pocas letras,"
+               "el comando recorre el(los) árbol(es) de letras (construído(s)"
+               "con el comando iniciar_arbol_inverso) para ubicar todas las palabras" 
+               "posibles a construir que terminan con ese sufijo. A partir del" 
+               "recorrido, se presenta al usuario en pantalla todas las posibles" 
+               "palabras, la longitud de cada una y la puntuación que cada" 
+               "una puede obtener."
+            << std::endl;
   std::cout << "salir: salir del sistema\n" << std::endl;
 }
+
 void Ayuda::salir() {
   std::cout << "Saliendo..." << std::endl;
   exit(0);
+}
+
+bool Ayuda::leerArchivo(string nombreArchivo, Arbol *arbol) {
+  int cantidadLineas = 0;
+  ifstream archivo(nombreArchivo);
+  if (!archivo.is_open()) {
+    cout << "El archivo diccionario.txt no existe o no puede ser leído." << endl;
+    return false;
+  }
+  string linea;
+  if (!archivo.eof()) {
+    while (getline(archivo, linea)) {
+      cantidadLineas++;
+      //cout << "Palabra:" << linea << endl;
+      arbol->insertarPalabra(linea);
+    }
+  }
+  cout << "Arbol inicializado con: " << cantidadLineas << " palabras" << endl;
+  return true;
+}
+
+bool Ayuda::leerArchivoInverso(string nombreArchivo, Arbol *arbol){
+  int cantidadLineas = 0;
+  ifstream archivo(nombreArchivo);
+  if(!archivo.is_open()){
+    cout << "El archivo diccionario.txt no existe o no puede ser leído." << endl;
+    return false;
+  }
+  string linea;
+  if (!archivo.eof()) {
+    while (getline(archivo, linea)) {
+      cantidadLineas++;
+      std::stack<char> pila;
+      for(char letra: linea){
+        if(isalpha(letra)){
+          pila.push(letra);
+        }
+      }
+    std::string palabraInversa = stackToString(pila);
+      arbol->insertarPalabra(palabraInversa);
+    }
+  }
+  cout << "Arbol Inverso inicializado con: " << cantidadLineas << " palabras" << endl;
+  return true;
 }

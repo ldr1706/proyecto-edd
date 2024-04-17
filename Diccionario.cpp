@@ -1,5 +1,5 @@
 #include "Diccionario.h"
-#include "Ayuda.h"
+#include "utilidades.h"
 #include <cctype>
 #include <fstream>
 #include <iostream>
@@ -9,16 +9,9 @@
 #include <vector>
 using namespace std;
 
-std::string stackToString(std::stack<char> stack) {
-  std::string result;
-  while (!stack.empty()) {
-    result += stack.top();
-    stack.pop();
-  }
-  return result;
-}
 
 Diccionario::Diccionario() {}
+
 std::vector<std::string>
 Diccionario::inicializar_diccionario(const std::string &archivo) {
   std::vector<std::string> palabras;
