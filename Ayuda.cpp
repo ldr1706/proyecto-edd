@@ -1,4 +1,5 @@
 #include "Ayuda.h"
+#include "Graph.h"
 #include "Diccionario.h"
 #include "Palabra.h"
 #include "arbol_trie.h"
@@ -19,6 +20,8 @@ std::vector<string> listaPalabras;
 std::vector<std::string> palabrasInversas;
 
 Palabra pal;
+Graph grafo;
+bool iniciado=false;
 Arbol *arbol = new Arbol();
 Arbol *arbolInverso = new Arbol();
 bool arbolInicializado = false;
@@ -50,6 +53,7 @@ void Ayuda::ejecutarComando(const std::string &entrada) {
     entry >> archivo;
     if (!archivo.empty()) {
       listaPalabras = dicci.inicializar_diccionario(archivo);
+      iniciado=true;
     } else {
       std::cout << "Error: Uso incorrecto de 'iniciar'. Debe proporcionar "
                    "el nombre del archivo."
@@ -124,6 +128,25 @@ void Ayuda::ejecutarComando(const std::string &entrada) {
         cout << sufijo <<"- Tamaño: " <<sufijo.length() << "- Puntaje: " << puntajePalabra(sufijo) << endl;
       }
     }
+  }else if(comando == "grafo_de_palabras"){
+    if (!iniciado){
+      std::cout <<"Diccionario no esta iniciado, por favor ingrese el comando para iniciarlo"<<std::endl;
+    }
+    else{
+      listaPalabras= dicci.inicializar_diccionario("diccionario.txt");
+      grafo.crearGrafo(listaPalabras);
+      const auto& matriz = grafo.getMatriz();
+      for (const auto& row : matriz) {
+          for (int val : row) {
+              std::cout << val << " ";
+          }
+          std::cout << std::endl;
+      }
+    }
+  }else if(comando == "posibles_palabras"){
+    std::string letras;
+    entry >> letras;
+    grafo.posibles_palabras(letras);
   }else if (comando == "salir") {
     salir();
   } else {
@@ -160,7 +183,7 @@ void Ayuda::mostrarAyuda() const {
                "es decir, que exista en el diccionario (tanto original como en "
                "sentido inverso), y que esté escrita con símbolos válidos\n"
             << std::endl;
-  std::cout << "iniciar_arbol diccionario.txt: Inicializa el sistema a partir "
+  std::cout << "iniciar_arbol diccionario.txt:"
                "Inicializa el sistema a partir del archivo diccionario.txt, que contiene"                "un diccionario de palabras aceptadas en el idioma inglés" 
                "(idioma original del juego). A diferencia del comando inicializar,"
                "este comando almacena las palabras en uno o más árboles de letras" 
@@ -190,8 +213,12 @@ void Ayuda::mostrarAyuda() const {
                "posibles a construir que terminan con ese sufijo. A partir del" 
                "recorrido, se presenta al usuario en pantalla todas las posibles" 
                "palabras, la longitud de cada una y la puntuación que cada" 
-               "una puede obtener."
+               " una puede obtener."
             << std::endl;
+  
+  std::cout << "grafo_de_palabras: Con las palabras ya almacenadas en el diccionario (luego de ejecutar el comando inicializar), el comando construye un grafo de palabras, en donde cada palabra se conecta a las demás si y sólo sí difieren en un única letra (con las demás letras iguales y en las mismas posiciones)" << std::endl;
+  
+  std::cout << "posibles_palabras letras: Dadas ciertas letras en una cadena de caracteres (sin importar su orden), el comando debe presentar en pantalla todas las posibles palabras válidas a construir, indicando la longitud de cada una y la puntuación que se puede obtener con cada una. En las letras de la cadena de caracteres, puede admitirse un único símbolo comodín (?), el cual representará una letra desconocida y permitirá generar mayores posibilidades de palabras a construir. Para este propósito, el comando debe hacer uso del grafo de palabras construído con el comando grafo_de_palabras ." << std::endl;
   std::cout << "salir: salir del sistema\n" << std::endl;
 }
 
@@ -243,3 +270,4 @@ bool Ayuda::leerArchivoInverso(string nombreArchivo, Arbol *arbol){
   cout << "Arbol Inverso inicializado con: " << cantidadLineas << " palabras" << endl;
   return true;
 }
+
